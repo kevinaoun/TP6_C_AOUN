@@ -1,23 +1,20 @@
 CC= gcc
 CFLAGS= -Wall -Wextra -fsanitize=address -g
 
-all: main exe clean
+all: main exe
 
-main: main.c
-	@$(CC) $(CFLAGS) -o main main.c
+main: fonctions.o main.o header.h
+	@$(CC) $(CFLAGS) -o main main.o fonctions.o
 
-#main: fonctions.o main.o header.h
-#	@$(CC) $(CFLAGS) -o main main.o fonctions.o
+main.o: main.c header.h
+	@$(CC) -o main.o -c main.c
 
-#main.o: main.c header.h
-#	@$(CC) -o main.o -c main.c
-
-#fonctions.o: fonctions.c header.h
-#	@$(CC) -o fonctions.o -c fonctions.c
+fonctions.o: fonctions.c header.h
+	@$(CC) -o fonctions.o -c fonctions.c
 
 exe:
 	@./main
 
 clean:
 	@rm main
-#	@rm *.o
+	@rm *.o
