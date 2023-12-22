@@ -1,0 +1,206 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "header.h"
+
+/*******************************************************************************/
+
+ListNode *newNode(){
+    ListNode *Node = malloc(sizeof(ListNode));
+    int val;
+    //printf("Rentrer une valeur : ");
+    scanf("%d", &val);
+    Node->val=val;
+    Node->dest=NULL;
+    return Node;
+}
+
+/*******************************************************************************/
+
+ListNode *newNodeAuto(int val){
+    ListNode *Node = malloc(sizeof(ListNode));
+    Node->val=val;
+    Node->dest=NULL;
+    return Node;
+}
+
+/*******************************************************************************/
+
+ListNode *insertEnd(ListNode *liste){
+    printf("Element ajouté à la fin : ");
+    ListNode *initiale = liste;
+    if (liste == NULL) return newNode();
+    while (liste->dest != NULL){
+        liste=liste->dest;
+    }
+    liste->dest = newNode();
+    return initiale;
+}
+
+/*******************************************************************************/
+
+ListNode *insertBeginning(ListNode *liste){
+    printf("Element ajouté au début : ");
+    ListNode *FirstNode = newNode();
+    FirstNode->dest = liste;
+    return FirstNode;
+}
+
+/*******************************************************************************/
+
+ListNode *insertMiddle(ListNode *liste){
+// place de l'élément à placer, 1 étant la première
+    int place;
+    printf("Saisir la place à laquelle insérer l'élément,\n");
+    printf("(1 étant la première place, n la n-ième) : ");
+    scanf("%d",&place);
+
+    printf("Element ajouté à la place %d : ",place);
+    if (liste == NULL) return newNode();
+    if (place == 1) return insertBeginning(liste);
+    ListNode *initiale = liste;
+
+    int i=1;
+    while (i!=(place-1)){
+        liste=liste->dest;
+        i++;
+    }
+    ListNode *temp = liste->dest;
+    ListNode *Node = newNode();
+    liste->dest = Node;
+    Node->dest = temp;
+    return initiale;
+}
+
+/*******************************************************************************/
+
+ListNode *deleteNode(ListNode *liste){
+
+    if (liste == NULL){
+        printf("Liste vide, ERREUR\n");
+        return liste;
+    }
+
+    int val;
+    printf("Saisir la valeur à effacer de la liste : ");
+    scanf("%d",&val);
+
+    ListNode *initiale = liste;
+    ListNode *temp = NULL;
+
+    // L'élément à supprimer est en première position
+    if (liste->val == val){
+        initiale = liste->dest;
+        free(liste);
+        return initiale;
+    }
+
+    while (liste->val != val){
+        // L'élément à supprimer n'est pas dans la liste
+        if (liste->dest == NULL){
+            printf("Cette valeur n'est pas dans la liste\n");
+            return initiale;
+        }
+        temp = liste;
+        liste = liste->dest;
+    }
+
+    if (liste->val == val) {
+        // L'élément à supprimer est en dernière position
+        if (liste->dest == NULL) {
+            temp->dest = NULL;
+            free(liste);
+        }
+        // L'élément à supprimer est dans la liste
+        else {
+            temp->dest = liste->dest;
+            free(liste);
+        }
+        return initiale;
+    }
+
+    printf("MESSAGE ERREUR\n");
+    return initiale;
+
+}
+
+/*******************************************************************************/
+
+void searchNode(ListNode *liste){
+    if (liste == NULL) printf("La liste est vide, pas d'élément présent\n");
+
+    int val;
+    printf("Saisir la valeur à chercher dans la liste : ");
+    scanf("%d",&val);
+    
+    int i=1;
+    while (liste->val != val){
+        // L'élément de cette valeur n'est pas à cette place
+        if (liste->dest == NULL) {
+            printf("Aucun élément de valeur %d n'est pas dans la liste\n",val);
+            return ;
+        }
+        // Pas besoin du "else"
+        else {
+            liste = liste->dest;
+            i++;
+        }
+    }
+    printf("Un élément de valeur %d se situe à la place %d de la liste\n",val,i);
+}
+
+/*******************************************************************************/
+
+// ListNode *sorterList(ListNode *liste){      // MARCHE PAS
+//     ListNode *trie = NULL;
+//     trie->val = liste->val;
+//     ListNode *initiale = trie;
+
+//     while (liste->dest != NULL){
+
+//         trie = initiale;
+//         liste = liste->dest;
+
+//         if (trie->val > liste->val){
+//             ListNode *node = newNodeAuto(liste->val);
+//             node->dest = trie;
+//             initiale = node;
+//         }
+
+//         else {
+//             while ((trie->dest != NULL) && (trie->dest->val < liste->val)){
+//                 trie = trie->dest;
+//             }
+//             ListNode *node = newNodeAuto(liste->val);
+//             node->dest = trie->dest;
+//             trie->dest = node;
+//             trie = initiale;
+
+//         }
+
+//     }
+
+//     return initiale;
+// }
+
+/*******************************************************************************/
+
+void printList(ListNode *liste){
+    if (liste != NULL) printf("La liste est : ");
+    while (liste != NULL){
+        printf("%d ",liste->val);
+        liste=liste->dest;
+    }
+    printf("\n");
+}
+
+/*******************************************************************************/
+
+void freeListe(ListNode *liste){
+    ListNode *temp;
+    while (liste != NULL){
+        temp = liste;
+        liste=liste->dest;
+        free(temp);
+    }
+    printf("L'espace alloué a bien été libéré\n");
+}
