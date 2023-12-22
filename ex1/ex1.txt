@@ -61,6 +61,10 @@ ListNode *insertMiddle(ListNode *liste){
 
     int i=1;
     while (i!=(place-1)){
+        if (liste->dest != NULL) {
+            printf("Aucun\nLa liste ne contient pas la place saisie\n");
+            return initiale;
+        }
         liste=liste->dest;
         i++;
     }
@@ -204,6 +208,8 @@ void freeListe(ListNode *liste){
     }
     printf("L'espace alloué a bien été libéré\n");
 }
+
+/*******************************************************************************/
 
 int main(){
 
