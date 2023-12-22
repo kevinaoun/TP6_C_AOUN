@@ -26,31 +26,6 @@ TreeNode *newNodeAuto(int val){
     return Node;
 }
 
-// TreeNode *insert(TreeNode *tree) {  // SANS RECURSIVITE
-//     printf("Element à ajouter : ");
-//     TreeNode *initiale = tree;
-//     if (tree == NULL) return newNode();
-
-//     TreeNode *node = newNode();
-//     while (node->val < tree->val){
-//         if (tree->left == NULL) {
-//             tree->left = node;
-//             return initiale;
-//         }
-//         tree = tree->left;
-//     }
-//     while (node->val >= tree->val){
-//         if (tree->right == NULL) {
-//             tree->right = node;
-//             return initiale;
-//         }
-//         tree = tree->right;
-//     }
-
-//     printf("MESSAGE ERREUR\n");
-//     return initiale;
-// }
-
 void insert(TreeNode *tree, int val) {
     if (val < tree->val) {
         if (tree->left == NULL) tree->left = newNodeAuto(val);
@@ -66,44 +41,51 @@ void insert(TreeNode *tree, int val) {
     }
 }
 
-void inorder(TreeNode *tree) {     // SANS RECURSIVITE
-    while (tree->left != NULL) {
-        tree = tree->left;
+void inorder(TreeNode *tree) {
+    if (tree == NULL) {
+        printf("L'arbre est vide\n") ;
+        return;
     }
-    while (tree->right != NULL) {
-        printf("%d ",tree->val);
-        tree = tree->right;
+
+    if (tree->left != NULL) {
+        // printf("enfant gauche, %d\n",tree->left->val);
+        inorder(tree->left);
     }
-    printf("%d",tree->val);
-    if (tree->left != NULL) printf("\nDernier enfant à droite\n");
-    else printf("\nArrivé à la feuille\n");
+    else {  // if (tree->left == NULL)
+        // printf("%d ",tree->val);         // affichage double
+        if (tree->right != NULL) {
+            inorder(tree->right);
+        }
+    }
+    printf("%d ",tree->val);
 }
 
 void freeTree(TreeNode *tree) {
-    TreeNode *temp;
-    while (tree != NULL) {
-        if (tree->left != NULL) {
-            temp = tree;
-            tree = tree->left;
-            free(temp);
-        }
-        else if (tree->right != NULL) {
-            temp = tree;
-            tree = tree->right;
-            free(temp);
-        }
+    TreeNode *temp = tree;
+    if (temp != NULL) {
+        freeTree(tree->left);
+        freeTree(tree->right);
+        free(temp);
     }
-    printf("L'espace alloué a bien été libéré\n");
 }
 
 int main() {
     TreeNode *tree = NULL;
     printf("Valeur de la racine : ");
-    tree = newNode(tree);
+    tree = newNode();
+    
     insert(tree,5);
+    insert(tree,4);
+    insert(tree,3);
     insert(tree,8);
     insert(tree,6);
     insert(tree,7);
+    insert(tree,11);
+    insert(tree,10);
+    insert(tree,13);
+    insert(tree,12);
+
     inorder(tree);
+    printf("\n");
     freeTree(tree);
 }
