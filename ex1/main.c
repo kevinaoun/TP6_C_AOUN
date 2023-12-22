@@ -21,7 +21,7 @@ int main(){
     printList(racine);
 
     searchNode(racine);
-    
+
     // ListNode *trie = sorterList(racine);
     // printList(trie);
     // freeListe(trie);

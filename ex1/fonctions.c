@@ -61,7 +61,7 @@ ListNode *insertMiddle(ListNode *liste){
 
     int i=1;
     while (i!=(place-1)){
-        if (liste->dest != NULL) {
+        if (liste->dest == NULL) {
             printf("Aucun\nLa liste ne contient pas la place saisie\n");
             return initiale;
         }
@@ -153,39 +153,43 @@ void searchNode(ListNode *liste){
 }
 
 /*******************************************************************************/
+/*******************************************************************************/
+/*******************************************************************************/
 
-// ListNode *sorterList(ListNode *liste){      // MARCHE PAS
-//     ListNode *trie = NULL;
-//     trie->val = liste->val;
-//     ListNode *initiale = trie;
+ListNode *sorterList(ListNode *liste){      // MARCHE PAS
+    ListNode *trie = NULL;
+    trie->val = liste->val;
+    ListNode *initiale = trie;
 
-//     while (liste->dest != NULL){
+    while (liste->dest != NULL){
 
-//         trie = initiale;
-//         liste = liste->dest;
+        trie = initiale;
+        liste = liste->dest;
 
-//         if (trie->val > liste->val){
-//             ListNode *node = newNodeAuto(liste->val);
-//             node->dest = trie;
-//             initiale = node;
-//         }
+        if (trie->val > liste->val){
+            ListNode *node = newNodeAuto(liste->val);
+            node->dest = trie;
+            initiale = node;
+        }
 
-//         else {
-//             while ((trie->dest != NULL) && (trie->dest->val < liste->val)){
-//                 trie = trie->dest;
-//             }
-//             ListNode *node = newNodeAuto(liste->val);
-//             node->dest = trie->dest;
-//             trie->dest = node;
-//             trie = initiale;
+        else {
+            while ((trie->dest != NULL) && (trie->dest->val < liste->val)){
+                trie = trie->dest;
+            }
+            ListNode *node = newNodeAuto(liste->val);
+            node->dest = trie->dest;
+            trie->dest = node;
+            trie = initiale;
 
-//         }
+        }
 
-//     }
+    }
 
-//     return initiale;
-// }
+    return initiale;
+}
 
+/*******************************************************************************/
+/*******************************************************************************/
 /*******************************************************************************/
 
 void printList(ListNode *liste){
