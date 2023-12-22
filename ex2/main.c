@@ -26,29 +26,44 @@ TreeNode *newNodeAuto(int val){
     return Node;
 }
 
-TreeNode *insert(TreeNode *tree) {  // SANS RECURSIVITE
-    printf("Element à ajouter : ");
-    TreeNode *initiale = tree;
-    if (tree == NULL) return newNode();
+// TreeNode *insert(TreeNode *tree) {  // SANS RECURSIVITE
+//     printf("Element à ajouter : ");
+//     TreeNode *initiale = tree;
+//     if (tree == NULL) return newNode();
 
-    TreeNode *node = newNode();
-    while (node->val < tree->val){
-        if (tree->left == NULL) {
-            tree->left = node;
-            return initiale;
-        }
-        tree = tree->left;
-    }
-    while (node->val >= tree->val){
-        if (tree->right == NULL) {
-            tree->right = node;
-            return initiale;
-        }
-        tree = tree->right;
-    }
+//     TreeNode *node = newNode();
+//     while (node->val < tree->val){
+//         if (tree->left == NULL) {
+//             tree->left = node;
+//             return initiale;
+//         }
+//         tree = tree->left;
+//     }
+//     while (node->val >= tree->val){
+//         if (tree->right == NULL) {
+//             tree->right = node;
+//             return initiale;
+//         }
+//         tree = tree->right;
+//     }
 
-    printf("MESSAGE ERREUR\n");
-    return initiale;
+//     printf("MESSAGE ERREUR\n");
+//     return initiale;
+// }
+
+void insert(TreeNode *tree, int val) {
+    if (val < tree->val) {
+        if (tree->left == NULL) tree->left = newNodeAuto(val);
+        else insert(tree->left, val);
+    }
+    else if (val >= tree->val) {
+        if (tree->right == NULL) tree->right = newNodeAuto(val);
+        else insert(tree->right, val);
+    }
+    else {
+        printf("Arbre vide\n");
+        tree = newNodeAuto(val);
+    }
 }
 
 void inorder(TreeNode *tree) {     // SANS RECURSIVITE
@@ -85,10 +100,10 @@ int main() {
     TreeNode *tree = NULL;
     printf("Valeur de la racine : ");
     tree = newNode(tree);
-    insert(tree);
-    insert(tree);
-    insert(tree);
-    insert(tree);
+    insert(tree,5);
+    insert(tree,8);
+    insert(tree,6);
+    insert(tree,7);
     inorder(tree);
     freeTree(tree);
 }
