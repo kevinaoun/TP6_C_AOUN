@@ -42,22 +42,30 @@ void insert(TreeNode *tree, int val) {
 }
 
 void inorder(TreeNode *tree) {
-    if (tree == NULL) {
-        printf("L'arbre est vide\n") ;
-        return;
+
+    // if (tree == NULL) {
+    //     printf("L'arbre est vide\n") ;
+    //     return;
+    // }
+    // if (tree->left != NULL) {
+    //     inorder(tree->left);
+    //     if (tree->right != NULL) {
+    //         inorder(tree->right);
+    //     }
+    // }
+    // else {  // if (tree->left == NULL)
+    //     if (tree->right != NULL) {
+    //         inorder(tree->right);
+    //     }
+    // }
+    // printf("%d ",tree->val);
+
+    if (tree != NULL) {
+        inorder(tree->left);
+        printf("%d ",tree->val);
+        inorder(tree->right);
     }
 
-    if (tree->left != NULL) {
-        // printf("enfant gauche, %d\n",tree->left->val);
-        inorder(tree->left);
-    }
-    else {  // if (tree->left == NULL)
-        // printf("%d ",tree->val);         // affichage double
-        if (tree->right != NULL) {
-            inorder(tree->right);
-        }
-    }
-    printf("%d ",tree->val);
 }
 
 void freeTree(TreeNode *tree) {
@@ -71,8 +79,8 @@ void freeTree(TreeNode *tree) {
 
 int main() {
     TreeNode *tree = NULL;
-    printf("Valeur de la racine : ");
-    tree = newNode();
+    // printf("Valeur de la racine : ");
+    tree = newNodeAuto(9);
     
     insert(tree,5);
     insert(tree,4);
