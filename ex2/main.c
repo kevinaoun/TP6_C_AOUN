@@ -80,18 +80,16 @@ void freeTree(TreeNode *tree) {
 int main() {
     TreeNode *tree = NULL;
     // printf("Valeur de la racine : ");
-    tree = newNodeAuto(9);
+    // tree = newNodeAuto(101);
     
-    insert(tree,5);
-    insert(tree,4);
-    insert(tree,3);
+    insert(tree,101);
     insert(tree,8);
-    insert(tree,6);
-    insert(tree,7);
-    insert(tree,11);
-    insert(tree,10);
+    insert(tree,14);
+    insert(tree,129);
+    insert(tree,4);
+    insert(tree,99);
     insert(tree,13);
-    insert(tree,12);
+    insert(tree,55);
 
     inorder(tree);
     printf("\n");
