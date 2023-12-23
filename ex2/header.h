@@ -20,5 +20,8 @@ void insertAuto(TreeNode *tree);
 // Afficher les valeurs de l'arbre dans l'ordre croissant
 void inorder(TreeNode *tree);
 
+// 
+TreeNode *deleteNode(TreeNode* tree);
+
 // Libérer l'espace alloué pour l'arbre
 void freeTree(TreeNode *tree);

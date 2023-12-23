@@ -22,6 +22,11 @@ int main() {
 
     inorder(tree);
     printf("\n");
+
+    // deleteNode(tree);
+    // inorder(tree);
+    // printf("\n");
+
     freeTree(tree);
     
 }
