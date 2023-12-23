@@ -127,40 +127,51 @@ TreeNode *deleteNode(TreeNode* tree) {
             else {      // if (val >= tree->val)
                 temp->right = NULL;
             }
+            printf("Pas d'enfant\n");
             free(tree);
             return initiale;
         }
 
-        // ######### ATTENTION A CETTE PARTIE, FAIRE PLUS SIMPLE AVEC ADRESSES AU LIEU DE REMPLACER PUIS SUPPR ############
-        else if ((tree->left==NULL) && (tree->right!=NULL) && (tree->right->right==NULL) && (tree->right->left==NULL)) {
-            tree->val = tree->right->val;
-            tree->right = NULL;
-            free(tree->right);
+        else if ((tree->left==NULL) && (tree->right!=NULL)) {
+            if (tree->val < temp->val) {
+                temp->left = tree->right;
+            }
+            else {      // if (val >= tree->val)
+                temp->right = tree->right;
+            }
+            free(tree);
             return initiale;
         }
 
-        else if ((tree->right==NULL) && (tree->left!=NULL) && (tree->left->right==NULL) && (tree->left->left==NULL)) {
-            tree->val = tree->left->val;
-            tree->left = NULL;
-            free(tree->left);
+        else if ((tree->right==NULL) && (tree->left!=NULL)) {
+            if (tree->val < temp->val) {
+                temp->left = tree->left;
+            }
+            else {      // if (val >= tree->val)
+                temp->right = tree->left;
+            }
+            free(tree);
             return initiale;
         }
-        // ########## PLUS GENERAL, FAIRE EN MEME TEMPS LE CAS OU PLUSIEURS ENFANTS EN DESSOUS DU MEME ENFANT #############
 
-        else {
-            // if ((tree->left==NULL) && (tree->right!=NULL)) {
-            //     tree->val = tree->right->val;
-            //     if ((tree->right->right == NULL) && (tree->right->left == NULL)) {
-            //         free(tree->right);
-            //         free(temp);
-            //         return initiale;
-            //     }
-            //     free(tree->right);
-            // }
+        else {  // if ((tree->right!=NULL) && (tree->left!=NULL))
+                // EN REALITE IL SUFFIT JUSTE DE TROUVER LE PLUS PETIT FILS A DROITE 
+                // ET REMPLACER L'ELEMENT A SUPPRIMER PAR CELUI CI (PAS BESOIN DE RECURCIVE) 
+
+            TreeNode *temp2 = tree;
+            temp = tree;
+            tree = tree->right;
+
+            while (tree->left != NULL) {
+                temp2=tree;
+                tree = tree->left;
+            }
             
-            // ((tree->right==NULL) && (tree->left!=NULL))) {
-            
-            printf("ERREUR SMR ELSE\n");
+            int temp_int = tree->val;
+            temp2->left = NULL;
+            free(tree);
+            temp->val = temp_int;
+
             return initiale;
         }
 

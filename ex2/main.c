@@ -5,9 +5,10 @@
 int main() {
 
     TreeNode *tree = NULL;
+    // Demasquer pour saisir la valeur de la racine soit-même
     // printf("Valeur de la racine : ");
-    // tree = newNode();    // Saisir la valeur de la racine soit-même
-    tree = newNodeAuto(101);
+    // tree = newNode();
+    tree = newNodeAuto(101);    // A masquer si valeur saisie soit-même
     
     insert(tree,8);
     insert(tree,14);
@@ -17,15 +18,16 @@ int main() {
     insert(tree,13);
     insert(tree,55);
     
-    // insertAuto(tree);
+    // Demasquer pour tester
+    // inorder(tree);
     // insertAuto(tree);
 
     inorder(tree);
     printf("\n");
 
-    // deleteNode(tree);
-    // inorder(tree);
-    // printf("\n");
+    deleteNode(tree);
+    inorder(tree);
+    printf("\n");
 
     freeTree(tree);
     
