@@ -79,6 +79,7 @@ void inorder(TreeNode *tree) {
 
 /*******************************************************************************/
 
+// Supprimer un élément de l'arbre
 TreeNode *deleteNode(TreeNode* tree) {
 
     if (tree == NULL){
@@ -127,7 +128,6 @@ TreeNode *deleteNode(TreeNode* tree) {
             else {      // if (val >= tree->val)
                 temp->right = NULL;
             }
-            printf("Pas d'enfant\n");
             free(tree);
             return initiale;
         }
@@ -158,19 +158,26 @@ TreeNode *deleteNode(TreeNode* tree) {
                 // EN REALITE IL SUFFIT JUSTE DE TROUVER LE PLUS PETIT FILS A DROITE 
                 // ET REMPLACER L'ELEMENT A SUPPRIMER PAR CELUI CI (PAS BESOIN DE RECURCIVE) 
 
-            TreeNode *temp2 = tree;
             temp = tree;
             tree = tree->right;
 
-            while (tree->left != NULL) {
-                temp2=tree;
-                tree = tree->left;
+            if (tree->left != NULL) {
+                TreeNode *temp2 = tree;
+                while (tree->left != NULL) {
+                    temp2=tree;
+                    tree = tree->left;
+                }
+                temp2->left = NULL;
+                int temp_int = tree->val;
+                free(tree);
+                temp->val = temp_int;
             }
-            
-            int temp_int = tree->val;
-            temp2->left = NULL;
-            free(tree);
-            temp->val = temp_int;
+            else {
+                temp->val = tree->val;
+                temp->right = NULL;
+                free(tree);
+            }
+
 
             return initiale;
         }

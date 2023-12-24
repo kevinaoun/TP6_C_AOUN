@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "header.h"
+
+typedef struct TreeNode_{
+    int val;
+    struct TreeNode_ *left;
+    struct TreeNode_ *right;
+}TreeNode;
 
 /*******************************************************************************/
 
@@ -79,6 +84,118 @@ void inorder(TreeNode *tree) {
 
 /*******************************************************************************/
 
+// Supprimer un élément de l'arbre
+TreeNode *deleteNode(TreeNode* tree) {
+
+    if (tree == NULL){
+        printf("Arbre vide, ERREUR\n");
+        return tree;
+    }
+
+    int val;
+    printf("Saisir la valeur à effacer de l'arbre : ");
+    scanf("%d",&val);
+
+    TreeNode *initiale = tree;
+    TreeNode *temp = NULL;
+
+    while (val != tree->val) {
+
+        if (val < tree->val) {
+            if (tree->left == NULL) {
+                printf("La valeur à effacer n'est pas dans l'arbre\n");
+                return initiale;
+            }
+            else {
+                temp = tree;
+                tree = tree->left;
+            }
+        }
+        else {      // if (val >= tree->val)
+            if (tree->right == NULL) {
+                printf("La valeur à effacer n'est pas dans l'arbre\n");
+                return initiale;
+            }
+            else {
+                temp = tree;
+                tree = tree->right;
+            }
+        }
+
+    }
+
+    if (tree->val == val) {
+
+        if ((tree->right == NULL) && (tree->left == NULL)) {
+            if (tree->val < temp->val) {
+                temp->left = NULL;
+            }
+            else {      // if (val >= tree->val)
+                temp->right = NULL;
+            }
+            free(tree);
+            return initiale;
+        }
+
+        else if ((tree->left==NULL) && (tree->right!=NULL)) {
+            if (tree->val < temp->val) {
+                temp->left = tree->right;
+            }
+            else {      // if (val >= tree->val)
+                temp->right = tree->right;
+            }
+            free(tree);
+            return initiale;
+        }
+
+        else if ((tree->right==NULL) && (tree->left!=NULL)) {
+            if (tree->val < temp->val) {
+                temp->left = tree->left;
+            }
+            else {      // if (val >= tree->val)
+                temp->right = tree->left;
+            }
+            free(tree);
+            return initiale;
+        }
+
+        else {  // if ((tree->right!=NULL) && (tree->left!=NULL))
+                // EN REALITE IL SUFFIT JUSTE DE TROUVER LE PLUS PETIT FILS A DROITE 
+                // ET REMPLACER L'ELEMENT A SUPPRIMER PAR CELUI CI (PAS BESOIN DE RECURCIVE) 
+
+            temp = tree;
+            tree = tree->right;
+
+            if (tree->left != NULL) {
+                TreeNode *temp2 = tree;
+                while (tree->left != NULL) {
+                    temp2=tree;
+                    tree = tree->left;
+                }
+                temp2->left = NULL;
+                int temp_int = tree->val;
+                free(tree);
+                temp->val = temp_int;
+            }
+            else {
+                temp->val = tree->val;
+                temp->right = NULL;
+                free(tree);
+            }
+
+
+            return initiale;
+        }
+
+    }
+
+    printf("MESSAGE ERREUR\n");
+    return initiale;
+
+}
+
+/*******************************************************************************/
+
 // Libérer l'espace alloué pour l'arbre
 void freeTree(TreeNode *tree) {
     TreeNode *temp = tree;
@@ -94,9 +211,10 @@ void freeTree(TreeNode *tree) {
 int main() {
 
     TreeNode *tree = NULL;
+    // Demasquer pour saisir la valeur de la racine soit-même
     // printf("Valeur de la racine : ");
-    // tree = newNode();    // Saisir la valeur de la racine soit-même
-    tree = newNodeAuto(101);
+    // tree = newNode();
+    tree = newNodeAuto(101);    // A masquer si valeur saisie soit-même
     
     insert(tree,8);
     insert(tree,14);
@@ -106,13 +224,17 @@ int main() {
     insert(tree,13);
     insert(tree,55);
     
-    // insertAuto(tree);
+    // Demasquer pour tester
+    // inorder(tree);
     // insertAuto(tree);
 
     inorder(tree);
     printf("\n");
+
+    deleteNode(tree);
+    inorder(tree);
+    printf("\n");
+
     freeTree(tree);
-
+    
 }
-
-/*******************************************************************************/
