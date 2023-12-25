@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "header.h"
+
+typedef struct ListNode_{
+    int val;
+    struct ListNode_ *dest;
+}ListNode;
 
 /*******************************************************************************/
 
@@ -61,7 +65,7 @@ ListNode *insertMiddle(ListNode *liste){
 
     int i=1;
     while (i!=(place-1)){
-        if (liste->dest != NULL) {
+        if (liste->dest == NULL) {
             printf("Aucun\nLa liste ne contient pas la place saisie\n");
             return initiale;
         }
@@ -153,38 +157,42 @@ void searchNode(ListNode *liste){
 }
 
 /*******************************************************************************/
+// ICI J'AI DU UTILISER UN POINTEUR DE POINTEUR (**) COMME J'AURAIS PU/DU LE FAIRE
+// SUR TOUT L'EXERCICE, MAIS ICI JE N'AI PAS EU LE CHOIX, N'AYANT PAS REUSSI AUTREMENT
 
-// ListNode *sorterList(ListNode *liste){      // MARCHE PAS
-//     ListNode *trie = NULL;
-//     trie->val = liste->val;
-//     ListNode *initiale = trie;
+void sorterList(ListNode **liste) {
 
-//     while (liste->dest != NULL){
+    if ((*liste == NULL) || ((*liste)->dest == NULL)) {
+        return ;
+    }
 
-//         trie = initiale;
-//         liste = liste->dest;
+    ListNode *trie = NULL;
+    ListNode *temp = NULL;
 
-//         if (trie->val > liste->val){
-//             ListNode *node = newNodeAuto(liste->val);
-//             node->dest = trie;
-//             initiale = node;
-//         }
+    while (*liste != NULL) {
 
-//         else {
-//             while ((trie->dest != NULL) && (trie->dest->val < liste->val)){
-//                 trie = trie->dest;
-//             }
-//             ListNode *node = newNodeAuto(liste->val);
-//             node->dest = trie->dest;
-//             trie->dest = node;
-//             trie = initiale;
+        temp = *liste;
+        *liste = (*liste)->dest;
 
-//         }
+        if ((trie == NULL) || (trie->val > temp->val)) {
+            temp->dest = trie;
+            trie = temp;
+        }
 
-//     }
+        else {
+            ListNode *var = trie;
+            while ((var->dest != NULL) && (var->dest->val < temp->val)) {
+                var = var->dest;
+            }
+            temp->dest = var->dest;
+            var->dest = temp;
+        }
 
-//     return initiale;
-// }
+    }
+
+    *liste = trie;
+
+}
 
 /*******************************************************************************/
 
@@ -230,10 +238,12 @@ int main(){
     printList(racine);
 
     searchNode(racine);
-    
-    // ListNode *trie = sorterList(racine);
-    // printList(trie);
-    // freeListe(trie);
+
+    printf("Avant trie, ");
+    printList(racine);
+    sorterList(&racine);
+    printf("Après trie, ");
+    printList(racine);
 
     freeListe(racine);
     return 0;

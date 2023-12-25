@@ -22,9 +22,11 @@ int main(){
 
     searchNode(racine);
 
-    // ListNode *trie = sorterList(racine);
-    // printList(trie);
-    // freeListe(trie);
+    printf("Avant trie, ");
+    printList(racine);
+    sorterList(&racine);
+    printf("Après trie, ");
+    printList(racine);
 
     freeListe(racine);
     return 0;

@@ -17,7 +17,7 @@ ListNode *deleteNode(ListNode *liste);
 
 void searchNode(ListNode *liste);
 
-//ListNode *sorterList(ListNode *liste);
+void sorterList(ListNode **liste);
 
 void printList(ListNode *liste);
 

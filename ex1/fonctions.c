@@ -153,43 +153,43 @@ void searchNode(ListNode *liste){
 }
 
 /*******************************************************************************/
-/*******************************************************************************/
-/*******************************************************************************/
+// ICI J'AI DU UTILISER UN POINTEUR DE POINTEUR (**) COMME J'AURAIS PU/DU LE FAIRE
+// SUR TOUT L'EXERCICE, MAIS ICI JE N'AI PAS EU LE CHOIX, N'AYANT PAS REUSSI AUTREMENT
 
-ListNode *sorterList(ListNode *liste){      // MARCHE PAS
+void sorterList(ListNode **liste) {
+
+    if ((*liste == NULL) || ((*liste)->dest == NULL)) {
+        return ;
+    }
+
     ListNode *trie = NULL;
-    trie->val = liste->val;
-    ListNode *initiale = trie;
+    ListNode *temp = NULL;
 
-    while (liste->dest != NULL){
+    while (*liste != NULL) {
 
-        trie = initiale;
-        liste = liste->dest;
+        temp = *liste;
+        *liste = (*liste)->dest;
 
-        if (trie->val > liste->val){
-            ListNode *node = newNodeAuto(liste->val);
-            node->dest = trie;
-            initiale = node;
+        if ((trie == NULL) || (trie->val > temp->val)) {
+            temp->dest = trie;
+            trie = temp;
         }
 
         else {
-            while ((trie->dest != NULL) && (trie->dest->val < liste->val)){
-                trie = trie->dest;
+            ListNode *var = trie;
+            while ((var->dest != NULL) && (var->dest->val < temp->val)) {
+                var = var->dest;
             }
-            ListNode *node = newNodeAuto(liste->val);
-            node->dest = trie->dest;
-            trie->dest = node;
-            trie = initiale;
-
+            temp->dest = var->dest;
+            var->dest = temp;
         }
 
     }
 
-    return initiale;
+    *liste = trie;
+
 }
 
-/*******************************************************************************/
-/*******************************************************************************/
 /*******************************************************************************/
 
 void printList(ListNode *liste){
@@ -212,3 +212,5 @@ void freeListe(ListNode *liste){
     }
     printf("L'espace alloué a bien été libéré\n");
 }
+
+/*******************************************************************************/
